@@ -12,7 +12,7 @@ output:
     toc: yes
 ---
 
-## Mechanisms of plant-plant facilitation globally.
+## Mechanisms of positive plant interactions.
 The aim of this study was to conceptualize the mechanistic pathways of the nurse-plant syndrome by life-form and to identify the implications of positive plant–plant interactions forlandscape and evolutionary ecology. It is becoming
 increasingly apparent that future studies of the nurse-plant syndrome must
 decouple and consider multiple mechanisms of interaction to explain the processes
@@ -53,7 +53,7 @@ dat2 <- rbind(Shrub2,Tree2,Cushion2,Other2,Object2)
 colnames(dat2)=xlab2
 Mech <- colSums(dat2)
 ```
-### environments where positive plant interactions are found
+### facilitation by biome
 ``` {r, environment, echo=FALSE}
 
 #Environment Tested
@@ -72,7 +72,7 @@ m5
 m5$stdres
 ```
 
-### number of studies examining nurse mechanism and hypothesis
+### nurse mechanism and hypotheses
 ``` {r, nurse mechanism, echo=FALSE}
 
 
@@ -96,7 +96,7 @@ m4
 m4$stdres
 ```
 
-### pairwise comparisons of nurse hypothesis and mechanism
+### pairwise comparisons of mechanisms
 ``` {r nurse by mechanism, echo=FALSE}
 
 nursetest <- data.frame(nurse=c("Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Other","Other","Other","Other","Other","Other","Other","Other","Other","Object","Object","Object","Object","Object","Object","Object","Object","Object"),mech=c("ABS","HRP","POL","SBM","SDT","SMO","SNU","IBT","EVO","ABS","HRP","POL","SBM","SDT","SMO","SNU","IBT","EVO","ABS","HRP","POL","SBM","SDT","SMO","SNU","IBT","EVO","ABS","HRP","POL","SBM","SDT","SMO","SNU","IBT","EVO","ABS","HRP","POL","SBM","SDT","SMO","SNU","IBT","EVO"),studies=c(55,27,1,11,11,21,19,30,10,23,11,1,6,8,13,11,6,1,9,1,1,2,3,10,8,13,1,17,7,1,11,6,8,9,8,3,5,3,0,2,3,4,1,1,0))
