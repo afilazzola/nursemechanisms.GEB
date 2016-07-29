@@ -1,6 +1,6 @@
 ---
 title:
-author: "fitz90"
+author: "afilazzola"
 date: "July 2016"
 output:
   html_document:
@@ -24,9 +24,9 @@ that influence community structure, particularly in high-stress conditions, give
 
 [ecoblender](http://ecoblender.org)
 
-``` {r echo=FALSE}
+``` {r echo=FALSE, warnings=FALSE}
 ## load data
-
+library(pgirmess) # load library
 xlab1 <- c("Direct Mech","Disturbance","Evolution","Indirect Mech","Invasion","Populations","Restoration","Stress Gradient","Succession")
 legend <- c("Object","Other Plant","Cushion","Tree","Shrub")
 Shrub <- c(43,13,10,10,2,38,21,23,7)
@@ -54,7 +54,7 @@ colnames(dat2)=xlab2
 Mech <- colSums(dat2)
 ```
 ### facilitation by biome
-``` {r, environment, echo=FALSE}
+``` {r, environment, echo=TRUE}
 
 #Environment Tested
 
@@ -72,8 +72,13 @@ m5
 m5$stdres
 ```
 
+![](./mechanisms.figure.JPG)
+[figure link](https://figshare.com/articles/A_conceptual_framework_of_nurse_plant_mechanisms/861164)
+
+The relative frequency of each ecological hypothesis and nurse mechanism tested per study was compared using Pearson's chi-squared tests. To contrast the frequencies of nurse mechanisms and ecological theories, we used a Pearson's chi-squared test and compared the proportion for each grouping with the resulting standardized residuals as post hoc tests
+
 ### nurse mechanism and hypotheses
-``` {r, nurse mechanism, echo=FALSE}
+``` {r, nurse mechanism, echo=TRUE}
 
 
 par(mfrow = c(1,2))
@@ -96,6 +101,7 @@ m4
 m4$stdres
 ```
 
+We also separated the number of studies associated with each ecological hypothesis based on nurse life-form and conducted a Kruskal–Wallis test followed by post hoc multiple comparisons tests (pgirmess package in R). To determine if the proportion of nurse life-forms was similar between ecological hypotheses, each one was treated as a percentage of the total number of nurse-plant studies and a one-way ANOVA was conducted between life-forms. Tukey's honestly significant difference tests were used for these post hoc comparisons.
 ### pairwise comparisons of mechanisms
 ``` {r nurse by mechanism, echo=FALSE}
 
@@ -103,19 +109,18 @@ nursetest <- data.frame(nurse=c("Shrub","Shrub","Shrub","Shrub","Shrub","Shrub",
 
 concepttest <- data.frame(nurse=c("Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Other","Other","Other","Other","Other","Other","Other","Other","Other","Object","Object","Object","Object","Object","Object","Object","Object","Object"), concept=c("SGH","MEC","DRS","IDI","IVS","SUC","RES","SPT","EVO","SGH","MEC","DRS","IDI","IVS","SUC","RES","SPT","EVO","SGH","MEC","DRS","IDI","IVS","SUC","RES","SPT","EVO","SGH","MEC","DRS","IDI","IVS","SUC","RES","SPT","EVO","SGH","MEC","DRS","IDI","IVS","SUC","RES","SPT","EVO"), studies=c(23,43,13,10,2,7,21,38,10,12,14,9,4,1,6,13,8,1,11,3,1,2,4,2,0,11,2,9,16,7,7,3,5,7,7,4,2,5,2,3,0,1,2,3,0))
 
-fit1 <- aov(studies~nurse, data=nursetest)
+propor <- data.frame(nurse=c("Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Other","Other","Other","Other","Other","Other","Other","Other","Other","Object","Object","Object","Object","Object","Object","Object","Object","Object"),concept=c(0.403508772,0.530864198,0.40625,0.384615385,0.2,0.333333333,0.488372093,0.567164179,0.588235294,0.210526316,0.172839506,0.28125,0.153846154,0.1,0.285714286,0.302325581,0.119402985,0.058823529,0.192982456,0.037037037,0.03125,0.076923077,0.4,0.095238095,0,0.164179104,0.117647059,0.157894737,0.197530864,0.21875,0.269230769,0.3,0.238095238,0.162790698,0.104477612,0.235294118,0.035087719,0.061728395,0.0625,0.115384615,0,0.047619048,0.046511628,0.044776119,0))
 
-fit2 <- aov(studies~nurse, data=concepttest)
+```
 
+```{r echo=TRUE}
 fit3 <- kruskal.test(studies~nurse, data=concepttest)
-library(pgirmess)
-kruskalmc(studies~nurse + concept, data=concepttest)
-
-fit3 <- glm(studies~nurse, data=concepttest)
+summary(fit3)
+kruskalmc(studies~nurse + concept, data=concepttest) ## post-hoc contrast of kurskal.wallis
 
 # Proprotionality between studies
 
-propor <- data.frame(nurse=c("Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Other","Other","Other","Other","Other","Other","Other","Other","Other","Object","Object","Object","Object","Object","Object","Object","Object","Object"),concept=c(0.403508772,0.530864198,0.40625,0.384615385,0.2,0.333333333,0.488372093,0.567164179,0.588235294,0.210526316,0.172839506,0.28125,0.153846154,0.1,0.285714286,0.302325581,0.119402985,0.058823529,0.192982456,0.037037037,0.03125,0.076923077,0.4,0.095238095,0,0.164179104,0.117647059,0.157894737,0.197530864,0.21875,0.269230769,0.3,0.238095238,0.162790698,0.104477612,0.235294118,0.035087719,0.061728395,0.0625,0.115384615,0,0.047619048,0.046511628,0.044776119,0))
 fit5 <- aov(concept~nurse, data=propor)
+summary(fit5)
 TukeyHSD(fit5)
 ```
