@@ -24,6 +24,7 @@ that influence community structure, particularly in high-stress conditions, give
 
 [ecoblender](http://ecoblender.org)
 
+### Global studies map
 ```{r, map}
 locations<-read.csv("locations.csv")
 str(locations)
@@ -65,7 +66,7 @@ dat2 <- rbind(Shrub2,Tree2,Cushion2,Other2,Object2)
 colnames(dat2)=xlab2
 Mech <- colSums(dat2)
 ```
-### facilitation by biome
+### Facilitation by biome
 ``` {r, environment, echo=TRUE}
 
 #Environment Tested
@@ -89,7 +90,7 @@ m5$stdres
 
 The relative frequency of each ecological hypothesis and nurse mechanism tested per study was compared using Pearson's chi-squared tests. To contrast the frequencies of nurse mechanisms and ecological theories, we used a Pearson's chi-squared test and compared the proportion for each grouping with the resulting standardized residuals as post hoc tests
 
-### nurse mechanism and hypotheses
+### Hypotheses & mechanisms tested
 ``` {r, nurse mechanism, echo=TRUE}
 
 
@@ -114,7 +115,8 @@ m4$stdres
 ```
 
 We also separated the number of studies associated with each ecological hypothesis based on nurse life-form and conducted a Kruskal–Wallis test followed by post hoc multiple comparisons tests (pgirmess package in R). To determine if the proportion of nurse life-forms was similar between ecological hypotheses, each one was treated as a percentage of the total number of nurse-plant studies and a one-way ANOVA was conducted between life-forms. Tukey's honestly significant difference tests were used for these post hoc comparisons.
-### pairwise comparisons of mechanisms
+
+### Pairwise mechanisms contrasts
 ``` {r nurse by mechanism, echo=FALSE}
 
 nursetest <- data.frame(nurse=c("Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Shrub","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Tree","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Cushion","Other","Other","Other","Other","Other","Other","Other","Other","Other","Object","Object","Object","Object","Object","Object","Object","Object","Object"),mech=c("ABS","HRP","POL","SBM","SDT","SMO","SNU","IBT","EVO","ABS","HRP","POL","SBM","SDT","SMO","SNU","IBT","EVO","ABS","HRP","POL","SBM","SDT","SMO","SNU","IBT","EVO","ABS","HRP","POL","SBM","SDT","SMO","SNU","IBT","EVO","ABS","HRP","POL","SBM","SDT","SMO","SNU","IBT","EVO"),studies=c(55,27,1,11,11,21,19,30,10,23,11,1,6,8,13,11,6,1,9,1,1,2,3,10,8,13,1,17,7,1,11,6,8,9,8,3,5,3,0,2,3,4,1,1,0))
