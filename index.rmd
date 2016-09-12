@@ -25,16 +25,18 @@ that influence community structure, particularly in high-stress conditions, give
 [ecoblender](http://ecoblender.org)
 
 ### Global studies map
-```{r, map}
+```{r, map, warning=FALSE, messages=FALSE}
 locations<-read.csv("locations.csv")
 str(locations)
-library(ggplot2)
 library(maps)
+library(mapdata)
 
-world<-map_data("world")
-map<-ggplot() + geom_polygon(data=world, colour="gray50", fill="gray50", aes(x=long, y=lat, group=group))
-map + geom_point(data=locations, aes(x=long, y=lat), color="green")
-
+par(mar=c(0,0,0,0))
+map("world", fill=T, col="grey50", border=FALSE,  xlim=c(-180,180), ylim=c(-90,90))
+axis(1)
+axis(2)
+box()
+points(locations$lon,locations$lat, pch=19, col="green", cex=0.6)
 ```
 
 ``` {r echo=FALSE, warnings=FALSE}
