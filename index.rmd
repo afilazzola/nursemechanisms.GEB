@@ -10,6 +10,8 @@ output:
     toc_float: yes
   pdf_document:
     toc: yes
+editor_options: 
+  chunk_output_type: console
 ---
 
 ## Mechanisms of positive plant interactions.
@@ -30,6 +32,7 @@ locations<-read.csv("locations.csv")
 str(locations)
 library(maps)
 library(mapdata)
+library(tidyverse)
 
 par(mar=c(0,0,0,0))
 map("world", fill=T, col="grey50", border=FALSE,  xlim=c(-180,180), ylim=c(-90,90))
@@ -37,12 +40,25 @@ axis(1)
 axis(2)
 box()
 points(locations$lon,locations$lat, pch=19, col="green", cex=0.6)
+
+
+## Create a higher resolutino of map
+
+require(ggmap)
+require(maps)
+###  Start with base map of world
+mp <- NULL
+mapWorld <- borders("world", colour="white", fill="orange") # create a layer of borders
+mp <- ggplot() + theme_bw()+  mapWorld
+
+mp <- mp+ geom_point(data=locations , aes(x=lon, y=lat), size=2, pch=21, fill="Red") + scale_fill_manual(values=c("#D55E00", "#009E73", "#56B4E9","grey50")) + ylab("Latitude") + xlab("Longitude") 
+mp
 ```
 
 ``` {r echo=FALSE, warnings=FALSE}
 ## load data
 library(pgirmess) # load library
-xlab1 <- c("Direct Mech","Disturbance","Evolution","Indirect Mech","Invasion","Populations","Restoration","Stress Gradient","Succession")
+xlab1 <- c("Direct Interactions","Biotic Stress","Evolution","Indirect Interactions","Invasion","Population Dynamics","Restoration","Abiotic Stress","Succession")
 legend <- c("Object","Other Plant","Cushion","Tree","Shrub")
 Shrub <- c(43,13,10,10,2,38,21,23,7)
 Tree <- c(14,9,1,4,1,8,13,12,6)
@@ -52,7 +68,7 @@ Object <- c(5,2,0,3,0,3,2,2,1)
 
 
 
-xlab2 <- c("Abiotic stress","Distribution","Evolution","Herbivory","Pollinator","Seeds","Soil moisture","Soil Nutrient","Substrate")
+xlab2 <- c("Stress Amelioration","Distribution","Evolution","Herbivory","Pollinator","Seeds","Soil Moisture","Soil Nutrient","Substrate")
 Shrub2 <- c(55,30,10,27,1,11,21,19,11)
 Tree2 <- c(23,6,1,11,1,8,13,11,6)
 Cushion2 <- c(9,13,1,1,1,3,10,8,2)
@@ -85,6 +101,17 @@ m5 <- chisq.test(enviro)
 m5
 
 m5$stdres
+
+
+## Revise figure output
+lbls <- c("Tropical", "Temperate", "Arctic-Alpine","Arid and Semi-Arid","Mediterranean","Other")
+enviro <- c(15.1,8.2,18.6,43.6,11.7,2.7)
+
+pieData <- data.frame(Ecosystem = lbls, Studies = enviro, colors=c("#fe0000","#008001", "#56B4E9", "#E69F00","#d1b48c","#81007f"), stringsAsFactors = F) %>% arrange(Ecosystem)
+
+pie <- ggplot(pieData, aes(x="", y=Studies, fill=Ecosystem))+ geom_bar(width = 1, stat = "identity")+ coord_polar("y", start=0)
+pie <- pie + theme_classic() + scale_fill_manual(values=pieData$colors)
+pie 
 ```
 
 ![](./mechanisms.figure.JPG)
@@ -98,13 +125,13 @@ The relative frequency of each ecological hypothesis and nurse mechanism tested 
 
 par(mfrow = c(1,2))
 
-plot2 <- barplot(dat2, xlab="", xaxt="n", ylab="Number of Articles", cex.lab=1.4, cex.names=1.2)
+plot2 <- barplot(dat2, xlab="", xaxt="n", ylab="Number of Articles", cex.lab=1.4, cex.names=1.2, ylim=c(0,120))
 axis(side=1, at=plot2, labels=FALSE)
-text(plot2,par("usr")[3] - 3, srt = 45, adj = 1,labels=xlab2,xpd = TRUE)
+text(plot2,par("usr")[3] - 3, srt = 35, adj = 1,labels=xlab2,xpd = TRUE)
 
-plot1 <- barplot(dat1, xlab="", xaxt='n', ylim=c(0,100),  cex.lab=1.4, cex.names=1.2, legend.text=TRUE, args.legend= list(x=12, y=110, cex=0.8, legend=legend))
+plot1 <- barplot(dat1, xlab="", xaxt='n', ylim=c(0,120),  cex.lab=1.4, cex.names=1.2, legend.text=TRUE, args.legend= list(x=12, y=110, cex=0.8, legend=legend))
 axis(side=1, at=plot1, labels=FALSE)
-text(plot1,par("usr")[3] - 3, srt = 45, adj = 1,labels=xlab1,xpd = TRUE)
+text(plot1,par("usr")[3] - 3, srt = 35, adj = 1,labels=xlab1,xpd = TRUE)
 
 #chi-square and post-hoc
 m3 <- chisq.test(Hypo)
